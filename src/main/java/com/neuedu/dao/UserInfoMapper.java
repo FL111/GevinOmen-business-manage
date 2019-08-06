@@ -47,7 +47,15 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
 
 
-    int exsitsUsername(@Param("username")String username);
+    /**
+     * 判断用户名是否存在
+     *
+     * @return  1:存在 0：不存在
+     *
+     */
+
+    int exsitsUsername(@Param("username") String username);
+
 
     UserInfo findByUsernameAndPassword(@Param("user") UserInfo userInfo);
 

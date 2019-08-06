@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     UserInfoMapper userInfoMapper;
@@ -16,29 +16,38 @@ public class UserServiceImpl implements IUserService{
     @Override
     public UserInfo login(UserInfo userInfo) throws MyException {
 
-        if(userInfo==null){
-            throw new MyException("参数不可为空");
-        }
+        //step1:参数的非空校验
 
+        if(userInfo==null){
+            throw  new MyException("参数不能为空");
+        }
         if(userInfo.getUsername()==null||userInfo.getUsername().equals("")){
-            throw new MyException("用户名不可为空");
+            throw  new MyException("用户名不能为空");
         }
         if(userInfo.getPassword()==null||userInfo.getPassword().equals("")){
-            throw new MyException("密码不可为空");
+            throw  new MyException("密码不能为空");
         }
-        int username_result=userInfoMapper.exsitsUsername(userInfo.getUsername());
-        if(username_result==0){
-            throw new MyException("用户名不存在");
+        //step2:判断用户名是否存在
+
+        int username_result= userInfoMapper.exsitsUsername(userInfo.getUsername());
+
+        if(username_result==0){//用户名不存在
+
+            throw  new MyException("用户名不存在");
         }
 
-        UserInfo userInfo1 =userInfoMapper.findByUsernameAndPassword(userInfo);
-        if(userInfo1==null){
-            throw new MyException("密码错误");
+        //step3: 根据用户名和密码登录
+        UserInfo userinfo_result=    userInfoMapper.findByUsernameAndPassword(userInfo);
+        if(userinfo_result==null){
+            throw  new MyException("密码错误");
         }
-        if(userInfo1.getRole()==0){
-            throw new MyException("无权访问");
+        //step4: 判断权限
+
+        if(userinfo_result.getRole()!=0){//不是管理员
+            throw  new MyException("没有权限访问");
         }
 
-        return userInfo1;
+
+        return userinfo_result;
     }
 }
