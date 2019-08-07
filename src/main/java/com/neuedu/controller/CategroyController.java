@@ -62,5 +62,32 @@ public class CategroyController {
         return "categoryupdate";
     }
 
+    @RequestMapping(value = "insert",method = RequestMethod.GET)
+    public String update(){
+        return "categoryinsert";
+    }
 
+    @RequestMapping(value = "insert",method = RequestMethod.POST)
+    public String update(Category category){
+        int count = categoryService.addCategory(category);
+        if(count>0){
+            return  "redirect:/user/category/find";
+        }
+        return "categoryinsert";
+    }
+
+    @RequestMapping(value = "delete",method = RequestMethod.GET)
+    public String delete(){
+
+        return "categorydelete";
+    }
+
+    @RequestMapping(value = "delete",method = RequestMethod.POST)
+    public String delete(Category category){
+        int count = categoryService.deleteCategory(category.getId());
+        if(count>0){
+            return  "redirect:/user/category/find";
+        }
+        return "categoryinsert";
+    }
 }

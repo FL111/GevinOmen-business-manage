@@ -21,7 +21,12 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/"/>
+            <mvc:exclude-mapping path="/user/include"></mvc:exclude-mapping>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!--<bean id="multipartResolver"-->
           <!--class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
         <!--&lt;!&ndash; 设置上传文件的最大尺寸为5MB &ndash;&gt;-->
