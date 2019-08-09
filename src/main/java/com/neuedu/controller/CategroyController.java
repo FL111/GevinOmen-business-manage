@@ -29,7 +29,7 @@ public class CategroyController {
         List<Category> categoryList=categoryService.findAll();
 
         session.setAttribute("categorylist",categoryList);
-        return "categorylist";
+        return "category/list";
     }
 
 
@@ -40,10 +40,9 @@ public class CategroyController {
         response.setContentType("text/html;charset=UTF-8");
 
         Category category=categoryService.findCategoryById(categoryId);
-
         request.setAttribute("category",category);
 
-        return "categoryupdate";
+        return "category/index";
     }
 
     @RequestMapping(value = "update/{id}",method = RequestMethod.POST)
@@ -59,12 +58,12 @@ public class CategroyController {
             return "redirect:/user/category/find";
         }
 
-        return "categoryupdate";
+        return "category/index";
     }
 
     @RequestMapping(value = "insert",method = RequestMethod.GET)
     public String update(){
-        return "categoryinsert";
+        return "category/insert";
     }
 
     @RequestMapping(value = "insert",method = RequestMethod.POST)
@@ -73,21 +72,17 @@ public class CategroyController {
         if(count>0){
             return  "redirect:/user/category/find";
         }
-        return "categoryinsert";
+        return "category/insert";
     }
 
-    @RequestMapping(value = "delete",method = RequestMethod.GET)
-    public String delete(){
 
-        return "categorydelete";
-    }
 
-    @RequestMapping(value = "delete",method = RequestMethod.POST)
-    public String delete(Category category){
-        int count = categoryService.deleteCategory(category.getId());
+    @RequestMapping(value = "delete/{id}")
+    public String delete(@PathVariable("id")int id){
+        int count = categoryService.deleteCategory(id);
         if(count>0){
             return  "redirect:/user/category/find";
         }
-        return "categoryinsert";
+        return "category/list";
     }
 }

@@ -45,4 +45,6 @@ public interface CategoryMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(@Param("category") Category record);
+
+
 }

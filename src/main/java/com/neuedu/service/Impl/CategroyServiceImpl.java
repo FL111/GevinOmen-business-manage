@@ -18,11 +18,19 @@ public class CategroyServiceImpl implements ICategoryService {
 
     @Override
     public int addCategory(Category category) throws MyException {
+        int count =categoryMapper.insert(category);
+        if(count>0){
+            return 1;
+        }
         return 0;
     }
 
     @Override
     public int deleteCategory(int categoryId) throws MyException {
+        int count=categoryMapper.deleteByPrimaryKey(categoryId);
+        if(count>0){
+            return 1;
+        }
         return 0;
     }
 
@@ -33,6 +41,7 @@ public class CategroyServiceImpl implements ICategoryService {
 
     @Override
     public List<Category> findAll() throws MyException {
+
 
         return categoryMapper.selectAll();
 
@@ -45,4 +54,6 @@ public class CategroyServiceImpl implements ICategoryService {
         return  categoryMapper.selectByPrimaryKey(categoryId);
 
     }
+
+
 }

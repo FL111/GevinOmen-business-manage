@@ -47,7 +47,16 @@ public class ProductServiceImpl implements IProductService{
         if (product==null){
             throw new MyException("参数不能为空");
         }
-        int count=productMapper.updateByPrimaryKey(product);
+        int count= 0;
+        if(product.getMainImage().equals("")&&!product.getSubImages().equals("")){
+            count=productMapper.updateByMain(product);
+        }else if (!product.getMainImage().equals("")&&product.getSubImages().equals("")){
+            count=productMapper.updateBySub(product);
+        }else if(product.getMainImage().equals("")&&product.getSubImages().equals("")){
+            count=productMapper.updateByAll(product);
+        }else {
+            count=productMapper.updateByPrimaryKey(product);
+        }
         if (count>0){
             return 1;
         }

@@ -7,6 +7,8 @@ import com.neuedu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements IUserService {
 
@@ -49,5 +51,44 @@ public class UserServiceImpl implements IUserService {
 
 
         return userinfo_result;
+    }
+
+    @Override
+    public List<UserInfo> findAll() throws MyException {
+        List<UserInfo> userInfos=userInfoMapper.selectAll();
+        return userInfos;
+    }
+
+    @Override
+    public UserInfo findUserById(int id) throws MyException {
+        UserInfo userInfo=userInfoMapper.selectByPrimaryKey(id);
+        return userInfo;
+    }
+
+    @Override
+    public int updateUserinfo(UserInfo userInfo) {
+        int count=userInfoMapper.updateByPrimaryKey(userInfo);
+        if(count>0){
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int deleteById(int id) {
+        int count=userInfoMapper.deleteByPrimaryKey(id);
+        if(count>0){
+            return 1;
+        }
+        return 0;
+    }
+
+    @Override
+    public int insertUser(UserInfo userInfo) {
+        int count=userInfoMapper.insert(userInfo);
+        if(count>0){
+            return 1;
+        }
+        return 0;
     }
 }
