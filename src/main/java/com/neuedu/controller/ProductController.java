@@ -1,7 +1,9 @@
 package com.neuedu.controller;
 
 import com.neuedu.pojo.Category;
+import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.Product;
+import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,14 +32,26 @@ public class ProductController {
     @Autowired
     IProductService productService;
 
-    @RequestMapping(value = "/find")
-    public String find(HttpSession session){
-        List<Product> productList=productService.findAll();
+    @RequestMapping(value = "/find/{pageNum}/{pageSize}")
+    public String find(@PathVariable("pageNum")int currentPage,
+                       @PathVariable("pageSize")int pageSize,
+                       HttpSession session){
+        PageModul pageModul=new PageModul();
+        pageModul.setPageSize(pageSize);
+        pageModul.setCurrentPage(currentPage);
+        pageModul=productService.findXXX(pageModul);
+        int counn=productService.getCount();
+        counn=counn/pageSize+1;
+        pageModul.setPageCount(counn);
+        List<Product> productList=pageModul.getPageList();
         for(Product product:productList){
             String subImg=product.getSubImages();
             String[] sub=subImg.split(";");
             product.setSubImages(sub[0]);
         }
+        session.setAttribute("currentPage",currentPage);
+        session.setAttribute("size",pageSize);
+        session.setAttribute("conn",counn);
         session.setAttribute("productlist",productList);
         return "product/list";
     }
@@ -52,7 +66,6 @@ public class ProductController {
         String[] sub=subImg.split(";");
         List<String> list=new ArrayList<>();
         for(int i=0;i<(sub.length);i++){
-            System.out.println(sub[i]);
             list.add(sub[i]);
         }
         request.setAttribute("imglist",list);
@@ -79,7 +92,7 @@ public class ProductController {
             String fileName1=file1.getOriginalFilename();
             String fileextendname1=fileName1.substring(fileName1.lastIndexOf(".")+1);
             String newFilename1=uuid1+"."+fileextendname1;
-            File tranFile=new File("C:\\Users\\32871\\eclipse-workspace\\businessmanager\\src\\main\\webapp\\WEB-INF\\img");
+            File tranFile=new File("/neuedu");
             if(!tranFile.exists()){
                 tranFile.mkdir();
             }
@@ -93,7 +106,7 @@ public class ProductController {
         }
         String fileextendname=fileName.substring(fileName.lastIndexOf(".")+1);
         String newFilename=uuid+"."+fileextendname;
-        File tranFile=new File("C:\\Users\\32871\\eclipse-workspace\\businessmanager\\src\\main\\webapp\\WEB-INF\\img");
+        File tranFile=new File("/neuedu");
         if(!tranFile.exists()){
             tranFile.mkdir();
         }
@@ -108,7 +121,7 @@ public class ProductController {
         if (count>0){
             return "redirect:/user/product/find";
         }
-        return "product/index";
+        return "commom/error";
     }
 
     @RequestMapping(value = "/insert",method = RequestMethod.GET)
@@ -126,7 +139,8 @@ public class ProductController {
                          @RequestParam("stock")Integer stock,
                          @RequestParam("status")Integer status){
         StringBuffer buffer=new StringBuffer("");
-        File tranFile=new File("C:\\Users\\32871\\eclipse-workspace\\businessmanager\\src\\main\\webapp\\WEB-INF\\img");
+//        C:\Users\32871\eclipse-workspace\businessmanager\src\main\webapp\WEB-INF\img
+        File tranFile=new File("/neuedu");
         if(!tranFile.exists()){
             tranFile.mkdir();
         }
@@ -158,7 +172,32 @@ public class ProductController {
         if (count>0){
             return "redirect:/user/product/find";
         }
-        return "product/list";
+        return "commom/error";
+    }
+    @RequestMapping("/deletesub/{id}/{img}.{enend}")
+    public String deletesub(@PathVariable("id") Integer id,
+                            @PathVariable("img") String img,
+                            @PathVariable("enend")String enend){
+        img=img+"."+enend;
+        Product product=productService.findProductById(id);
+        String subImgs=product.getSubImages();
+        String[] subs=subImgs.split(";");
+        StringBuffer buffer=new StringBuffer();
+        for(String sub:subs){
+          // String[] x=sub.split(".");
+//            String a=x[0];
+            if(!sub.equals(img)){
+                buffer.append(sub).append(";");
+            }
+        }
+        buffer.append(";");
+        System.out.println(buffer.toString());
+        product.setSubImages(buffer.toString());
+        int count=productService.updateProduct(product);
+        if(count>0){
+            return "redirect:/user/product/update/"+product.getId().toString();
+        }
+        return "commom/error";
     }
 
     @RequestMapping(value = "/delete/{id}")
@@ -167,7 +206,20 @@ public class ProductController {
         if (count>0){
             return "redirect:/user/product/find";
         }
-        return "error";
+        return "commom/error";
+    }
+
+    @RequestMapping(value = "/status/{id}/{status}")
+    public String status(@PathVariable("id") Integer id,
+                         @PathVariable("status") Integer status){
+        Product product=new Product();
+        product.setStatus(status);
+        product.setId(id);
+        int count=productService.updateStatus(product);
+        if (count>0){
+            return "redirect:/user/product/find";
+        }
+        return "common/error";
     }
 
 

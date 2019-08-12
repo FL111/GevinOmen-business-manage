@@ -49,4 +49,10 @@
     <servlet-name>springmvc</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/views/common/error.ftl</location>
+  </error-page>
+
 </web-app>

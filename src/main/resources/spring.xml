@@ -48,7 +48,7 @@
 
     </bean>
 
-
+    <bean class="com.neuedu.exception.MyExceptionHandlerResolver"/>
 
 
 </beans>

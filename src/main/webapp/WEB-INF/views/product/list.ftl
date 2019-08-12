@@ -27,7 +27,7 @@
                             <th>创建时间</th>
                             <th>修改时间</th>
                             <th>状态码</th>
-                            <th>操作</th>  <#--colspan="2"-->
+                            <th colspan="2">操作</th>  <#--colspan="2"-->
                         </tr>
                         </thead>
                         <tbody>
@@ -37,8 +37,8 @@
                             <td>${productInfo.id}</td>
                             <td>${productInfo.name}</td>
                             <td>${productInfo.subtitle}</td>
-                            <td><img height="100" width="100" src="/up111/${productInfo.mainImage}" alt=""></td>
-                            <td><img height="100" width="100" src="/up111/${productInfo.subImages}" alt=""></td>
+                            <td><img height="100" width="100" src="/up111/${productInfo.mainImage}" alt="" onclick="window.open(this.src)"></td>
+                            <td><img height="100" width="100" src="/up111/${productInfo.subImages}" alt="" onclick="window.open(this.src)"></td>
                             <td>${productInfo.price}</td>
                             <td>${productInfo.stock}</td>
                             <td>${productInfo.detail}</td>
@@ -49,13 +49,13 @@
                             <td><a href="/user/product/update/${productInfo.id}">修改</a>
                                 <a href="/user/product/delete/${productInfo.id}">删除</a>
                             </td>
-                            <#--<td>-->
-                                <#--<#if productInfo.getProductStatusEnum().message == "在架">-->
-                                    <#--<a href="/sell/seller/product/off_sale?productId=${productInfo.productId}">下架</a>-->
-                                <#--<#else>-->
-                                    <#--<a href="/sell/seller/product/on_sale?productId=${productInfo.productId}">上架</a>-->
-                                <#--</#if>-->
-                            <#--</td>-->
+                            <td>
+                                <#if productInfo.status == "1">
+                                    <a href="/user/product/status/${productInfo.id}/0">下架</a>
+                                <#else>
+                                    <a href="/user/product/status/${productInfo.id}/1">上架</a>
+                                </#if>
+                            </td>
                         </tr>
                         </#list>
                         </tbody>
@@ -68,21 +68,21 @@
                     <#if currentPage lte 1>
                         <li class="disabled"><a href="#">上一页</a></li>
                     <#else>
-                        <li><a href="/sell/seller/order/list?page=${currentPage - 1}&size=${size}">上一页</a></li>
+                        <li><a href="/user/product/find/${currentPage-1}/${size}">上一页</a></li>
                     </#if>
 
-                    <#list 1..productInfoPage.getTotalPages() as index>
+                    <#list 1..conn as index>
                         <#if currentPage == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="/sell/seller/order/list?page=${index}&size=${size}">${index}</a></li>
+                            <li><a href="/user/product/find/${index}/${size}">${index}</a></li>
                         </#if>
                     </#list>
 
-                    <#if currentPage gte productInfoPage.getTotalPages()>
+                    <#if currentPage gte conn>
                         <li class="disabled"><a href="#">下一页</a></li>
                     <#else>
-                        <li><a href="/sell/seller/order/list?page=${currentPage + 1}&size=${size}">下一页</a></li>
+                        <li><a href="/user/product/find/${currentPage + 1}/${size}">下一页</a></li>
                     </#if>
                     </ul>
                 </div>

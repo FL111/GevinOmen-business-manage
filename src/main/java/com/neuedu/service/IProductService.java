@@ -1,6 +1,7 @@
 package com.neuedu.service;
 
 import com.neuedu.exception.MyException;
+import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.Product;
 
 import java.util.List;
@@ -28,4 +29,10 @@ public interface IProductService {
 
     public Product findProductById(int productId);
 
+    public int updateStatus(Product product);
+
+
+    public PageModul findXXX(PageModul pageModul);
+
+    public int getCount();
 }

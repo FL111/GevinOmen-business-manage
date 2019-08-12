@@ -44,9 +44,9 @@ public class UserInterceptor implements HandlerInterceptor{
             }
         }
         UserInfo userInfo2=new UserInfo(x,y);
-        UserInfo userInfo1=userService.login(userInfo2);
-        if(userInfo1!=null){
-            session.setAttribute("userinfo",userInfo1);
+        userInfo2=userService.findUserByUsernameAndPassword(userInfo2);
+        if(userInfo2!=null){
+            session.setAttribute("userinfo",userInfo2);
             return true;
         }
 

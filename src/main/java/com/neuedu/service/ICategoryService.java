@@ -2,6 +2,7 @@ package com.neuedu.service;
 
 import com.neuedu.exception.MyException;
 import com.neuedu.pojo.Category;
+import com.neuedu.pojo.PageModul;
 
 import java.util.List;
 
@@ -33,4 +34,7 @@ public interface ICategoryService {
     public Category findCategoryById(int categoryId);
 
 
+    public PageModul findXXX(PageModul pageModul);
+
+    public int getCount();
 }

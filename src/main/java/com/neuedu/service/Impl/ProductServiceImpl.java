@@ -2,12 +2,15 @@ package com.neuedu.service.Impl;
 
 import com.neuedu.dao.ProductMapper;
 import com.neuedu.exception.MyException;
+import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.Product;
 import com.neuedu.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements IProductService{
@@ -72,5 +75,29 @@ public class ProductServiceImpl implements IProductService{
     public Product findProductById(int productId) {
         Product product=productMapper.selectByPrimaryKey(productId);
         return product;
+    }
+
+    @Override
+    public int updateStatus(Product product) {
+        int count=productMapper.updateStatus(product);
+        if(count>0){
+            return 1;
+        }
+        return 0;
+    }
+    @Override
+    public PageModul findXXX(PageModul pageModul) {
+        int x=pageModul.getCurrentPage();
+        int y=pageModul.getPageSize();
+        x=(x-1)*y;
+        List<Product> products=productMapper.selectAllByPage(x,y);
+        pageModul.setPageList(products);
+
+        return pageModul;
+    }
+
+    @Override
+    public int getCount() {
+        return productMapper.getCount();
     }
 }

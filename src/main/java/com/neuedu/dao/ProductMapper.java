@@ -1,8 +1,10 @@
 package com.neuedu.dao;
 
 import com.neuedu.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ProductMapper {
     /**
@@ -51,5 +53,9 @@ public interface ProductMapper {
 
     int updateByAll(Product record);
 
+    int updateStatus(Product record);
 
+    List<Product> selectAllByPage(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+
+    int getCount();
 }

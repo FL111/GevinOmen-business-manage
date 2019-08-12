@@ -51,6 +51,29 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="col-md-12 column">
+                    <ul class="pagination pull-right">
+                    <#if currentPage lte 1>
+                        <li class="disabled"><a href="#">上一页</a></li>
+                    <#else>
+                        <li><a href="/user/find/${currentPage-1}/${size}">上一页</a></li>
+                    </#if>
+
+                    <#list 1..conn as index>
+                        <#if currentPage == index>
+                            <li class="disabled"><a href="#">${index}</a></li>
+                        <#else>
+                            <li><a href="/user/find/${index}/${size}">${index}</a></li>
+                        </#if>
+                    </#list>
+
+                    <#if currentPage gte conn>
+                        <li class="disabled"><a href="#">下一页</a></li>
+                    <#else>
+                        <li><a href="/user/find/${currentPage + 1}/${size}">下一页</a></li>
+                    </#if>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

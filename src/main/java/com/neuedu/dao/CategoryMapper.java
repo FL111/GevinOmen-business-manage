@@ -4,6 +4,7 @@ import com.neuedu.pojo.Category;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CategoryMapper {
     /**
@@ -46,5 +47,7 @@ public interface CategoryMapper {
      */
     int updateByPrimaryKey(@Param("category") Category record);
 
+    List<Category> selectAllByPage(@Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
 
+    int getCount();
 }

@@ -41,7 +41,7 @@
                             <label>图片</label>
                             <div class="localImag">
                                 <input id="input-id-1" type="file" name="picture" onchange="javascript:setImagePreview();" class="fil">
-                                <img id="pic" src="" alt="图片在此显示" style="display:inline-block; height: 150px; width: 180px;">
+                                <img id="pic" src="" alt="图片在此显示" style="display:inline-block; height: 150px; width: 180px;" onclick="window.open(this.src)">
                                 <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过1M</p>
                             </div>
                         </div>

@@ -74,6 +74,8 @@
         <property name="requestContextAttribute" value="rc"></property>
     </bean>
 
+
+
     <mvc:annotation-driven/>
     <mvc:resources mapping="/static/**/" location="/WEB-INF/static/"></mvc:resources>
 </beans>

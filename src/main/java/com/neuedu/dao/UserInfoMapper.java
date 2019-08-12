@@ -4,6 +4,7 @@ import com.neuedu.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserInfoMapper {
     /**
@@ -58,5 +59,9 @@ public interface UserInfoMapper {
 
 
     UserInfo findByUsernameAndPassword(@Param("user") UserInfo userInfo);
+
+    List<UserInfo> selectAllByPage(@Param("pageNum") int pageNum,@Param("pageSize") int pageSize);
+
+    int getCount();
 
 }

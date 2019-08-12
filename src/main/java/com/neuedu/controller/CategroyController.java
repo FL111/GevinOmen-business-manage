@@ -1,6 +1,7 @@
 package com.neuedu.controller;
 
 import com.neuedu.pojo.Category;
+import com.neuedu.pojo.PageModul;
 import com.neuedu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,12 +23,25 @@ public class CategroyController {
     @Autowired
     ICategoryService categoryService;
 
-    @RequestMapping("find")
-    public  String  findAll(HttpSession session,HttpServletResponse response,HttpServletRequest request)throws UnsupportedEncodingException{
+    @RequestMapping("find/{pageNum}/{pageSize}")
+    public  String  findAll(@PathVariable("pageNum")int currentPage,
+                            @PathVariable("pageSize")int pageSize, HttpSession session,HttpServletResponse response,HttpServletRequest request)throws UnsupportedEncodingException{
+
+        PageModul pageModul=new PageModul();
+        pageModul.setPageSize(pageSize);
+        pageModul.setCurrentPage(currentPage);
+        pageModul=categoryService.findXXX(pageModul);
+        int counn=categoryService.getCount();
+        counn=counn/pageSize+1;
+        pageModul.setPageCount(counn);
+
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
-        List<Category> categoryList=categoryService.findAll();
+        List<Category> categoryList=pageModul.getPageList();
 
+        session.setAttribute("currentPage",currentPage);
+        session.setAttribute("size",pageSize);
+        session.setAttribute("conn",counn);
         session.setAttribute("categorylist",categoryList);
         return "category/list";
     }

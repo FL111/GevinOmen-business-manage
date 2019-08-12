@@ -1,7 +1,9 @@
 package com.neuedu.controller;
 
 import com.neuedu.consts.Const;
+import com.neuedu.dbutils.MD5Utils;
 import com.neuedu.pojo.Category;
+import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.UserInfo;
 import com.neuedu.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,6 @@ public class UserController {
     @Autowired
     IUserService userService;
 
-
-
     @RequestMapping(value = "login",method = RequestMethod.GET)
     public  String login(){
         return "login";
@@ -35,7 +35,7 @@ public class UserController {
 
     @RequestMapping(value = "login",method = RequestMethod.POST)
     public  String login(UserInfo userInfo, HttpSession session, HttpServletResponse response){
-
+        userInfo.setPassword(MD5Utils.getMD5Code(userInfo.getPassword()));
         UserInfo loginUserInfo= userService.login(userInfo);
         session.setAttribute("userinfo",loginUserInfo);
         System.out.println(loginUserInfo);
@@ -68,15 +68,24 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping("find")
-    public  String  findAll(HttpSession session,HttpServletResponse response,HttpServletRequest request)throws UnsupportedEncodingException {
-        request.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html;charset=UTF-8");
-        List<UserInfo> userList=userService.findAll();
+    @RequestMapping("find/{pageNum}/{pageSize}")
+    public  String  findAll(@PathVariable("pageSize")int pageSize,
+                            @PathVariable("pageNum") int currentPage,
+                            HttpSession session,HttpServletResponse response,HttpServletRequest request)throws UnsupportedEncodingException {
+        PageModul pageModul=new PageModul();
+        pageModul.setPageSize(pageSize);
+        pageModul.setCurrentPage(currentPage);
+        pageModul=userService.findXXX(pageModul);
+        int counn=userService.getCount();
+        counn=counn/pageSize+1;
+        pageModul.setPageCount(counn);
+        List<UserInfo> userList=pageModul.getPageList();
         for(UserInfo userInfo:userList){
             System.out.println(userInfo);
         }
-
+        session.setAttribute("currentPage",currentPage);
+        session.setAttribute("size",pageSize);
+        session.setAttribute("conn",counn);
         session.setAttribute("userlist",userList);
         return "user/list";
     }
@@ -88,7 +97,6 @@ public class UserController {
         response.setContentType("text/html;charset=UTF-8");
 
         UserInfo userInfo=userService.findUserById(userId);
-
         request.setAttribute("userInfo",userInfo);
 
         return "user/index";
@@ -96,7 +104,7 @@ public class UserController {
 
     @RequestMapping(value = "update/{id}",method = RequestMethod.POST)
     public  String  update(UserInfo userInfo, HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
-
+        userInfo.setPassword(MD5Utils.getMD5Code(userInfo.getPassword()));
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
         //
@@ -125,6 +133,7 @@ public class UserController {
     }
     @RequestMapping(value = "insert",method = RequestMethod.POST)
     public String insert(UserInfo userInfo){
+        userInfo.setPassword(MD5Utils.getMD5Code(userInfo.getPassword()));
         int count =userService.insertUser(userInfo);
         if (count>0){
             return "redirect:/user/find";

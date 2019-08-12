@@ -4,11 +4,15 @@ package com.neuedu.service.Impl;
 import com.neuedu.dao.CategoryMapper;
 import com.neuedu.exception.MyException;
 import com.neuedu.pojo.Category;
+import com.neuedu.pojo.PageModul;
+import com.neuedu.pojo.Product;
 import com.neuedu.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategroyServiceImpl implements ICategoryService {
@@ -54,6 +58,20 @@ public class CategroyServiceImpl implements ICategoryService {
         return  categoryMapper.selectByPrimaryKey(categoryId);
 
     }
+    @Override
+    public PageModul findXXX(PageModul pageModul) {
+        int x=pageModul.getCurrentPage();
+        int y=pageModul.getPageSize();
+        x=(x-1)*y;
+        List<Category> categories=categoryMapper.selectAllByPage(x,y);
+        pageModul.setPageList(categories);
 
+        return pageModul;
+    }
+
+    @Override
+    public int getCount() {
+        return categoryMapper.getCount();
+    }
 
 }
