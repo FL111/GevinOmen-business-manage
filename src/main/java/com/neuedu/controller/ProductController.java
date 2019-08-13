@@ -119,7 +119,7 @@ public class ProductController {
         Product product=new Product(categoryId,name,subtitle,newFilename,price,stock,status,buffer.toString(),detail);
         int count = productService.updateProduct(product);
         if (count>0){
-            return "redirect:/user/product/find";
+            return "redirect:/user/product/find/1/3";
         }
         return "commom/error";
     }
@@ -170,7 +170,7 @@ public class ProductController {
         Product product=new Product(categoryId,name,subtitle,newFilename,price,stock,status,buffer.toString(),detail);
         int count = productService.addProduct(product);
         if (count>0){
-            return "redirect:/user/product/find";
+            return "redirect:/user/product/find/1/3";
         }
         return "commom/error";
     }
@@ -204,7 +204,7 @@ public class ProductController {
     public  String delete(@PathVariable Integer id){
         int count =productService.deleteProduct(id);
         if (count>0){
-            return "redirect:/user/product/find";
+            return "redirect:/user/product/find/1/3";
         }
         return "commom/error";
     }
@@ -217,7 +217,7 @@ public class ProductController {
         product.setId(id);
         int count=productService.updateStatus(product);
         if (count>0){
-            return "redirect:/user/product/find";
+            return "redirect:/user/product/find/1/3";
         }
         return "common/error";
     }

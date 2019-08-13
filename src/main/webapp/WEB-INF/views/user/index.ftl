@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/user/update/${userInfo.id}">
+                    <form role="form" method="post" action="/business/user/update/${userInfo.id}">
                         <div class="form-group">
                             <label>昵称</label>
                             <input name="username" type="text" class="form-control" value="${(userInfo.username)!''}"/>

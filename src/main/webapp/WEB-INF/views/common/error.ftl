@@ -22,7 +22,7 @@
 </body>
 
 <script>
-    setTimeout('location.href="/user/login"', 3000);
+    setTimeout('location.href="/business/user/login"', 3000);
 </script>
 
 </html>

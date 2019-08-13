@@ -206,11 +206,6 @@
       <version>2.3.20</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context-support</artifactId>
-      <version>3.2.3.RELEASE</version>
-    </dependency>
     <!--引入freemarker依赖-->
     <dependency>
       <groupId>org.freemarker</groupId>

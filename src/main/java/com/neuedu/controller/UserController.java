@@ -50,7 +50,7 @@ public class UserController {
             cookie1.setPath("/user");
             response.addCookie(cookie);
             response.addCookie(cookie1);
-            return "redirect:/user/category/find";
+            return "redirect:/user/category/find/1/3";
 
         }
         return "login";
@@ -112,7 +112,7 @@ public class UserController {
 
         if(count>0){
             //修改成功
-            return "redirect:/user/find";
+            return "redirect:/user/find/1/3";
         }
 
         return "user/index";
@@ -121,7 +121,7 @@ public class UserController {
     public String delete(@PathVariable("id")int id){
         int count = userService.deleteById(id);
         if(count>0){
-            return  "redirect:/user/find";
+            return  "redirect:/user/find/1/3";
         }
         return "user/index";
     }
@@ -136,7 +136,7 @@ public class UserController {
         userInfo.setPassword(MD5Utils.getMD5Code(userInfo.getPassword()));
         int count =userService.insertUser(userInfo);
         if (count>0){
-            return "redirect:/user/find";
+            return "redirect:/user/find/1/3";
         }
         return "user/index";
     }

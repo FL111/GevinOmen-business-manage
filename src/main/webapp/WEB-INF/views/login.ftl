@@ -54,7 +54,7 @@
   </head>
   <body>
   <div class="form-login">
-      <form action="http://localhost:8081/user/login" method="post">
+      <form action="/business/user/login" method="post">
           <h1>Welcome</h1>
           <input class="txtb" type="text" name="username"/>
           <br/>

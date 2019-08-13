@@ -13,7 +13,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/user/category/insert">
+                    <form role="form" method="post" action="/business/user/category/insert">
                         <div class="form-group">
                             <label>名字</label>
                             <input name="name" type="text" class="form-control"/>

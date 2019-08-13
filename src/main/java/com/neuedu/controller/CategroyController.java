@@ -69,7 +69,7 @@ public class CategroyController {
 
         if(count>0){
             //修改成功
-            return "redirect:/user/category/find";
+            return "redirect:/user/category/find/1/3";
         }
 
         return "category/index";
@@ -84,7 +84,7 @@ public class CategroyController {
     public String update(Category category){
         int count = categoryService.addCategory(category);
         if(count>0){
-            return  "redirect:/user/category/find";
+            return  "redirect:/user/category/find/1/3";
         }
         return "category/insert";
     }
@@ -95,7 +95,7 @@ public class CategroyController {
     public String delete(@PathVariable("id")int id){
         int count = categoryService.deleteCategory(id);
         if(count>0){
-            return  "redirect:/user/category/find";
+            return  "redirect:/user/category/find/1/3";
         }
         return "category/list";
     }

@@ -46,14 +46,14 @@
                             <td>${productInfo.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
                             <td>${productInfo.updateTime?string('yyyy-MM-dd HH:mm:ss')}</td>
                             <td>${productInfo.status}</td>
-                            <td><a href="/user/product/update/${productInfo.id}">修改</a>
-                                <a href="/user/product/delete/${productInfo.id}">删除</a>
+                            <td><a href="/business/user/product/update/${productInfo.id}">修改</a>
+                                <a href="/business/user/product/delete/${productInfo.id}">删除</a>
                             </td>
                             <td>
                                 <#if productInfo.status == "1">
-                                    <a href="/user/product/status/${productInfo.id}/0">下架</a>
+                                    <a href="/business/user/product/status/${productInfo.id}/0">下架</a>
                                 <#else>
-                                    <a href="/user/product/status/${productInfo.id}/1">上架</a>
+                                    <a href="/business/user/product/status/${productInfo.id}/1">上架</a>
                                 </#if>
                             </td>
                         </tr>
@@ -68,21 +68,21 @@
                     <#if currentPage lte 1>
                         <li class="disabled"><a href="#">上一页</a></li>
                     <#else>
-                        <li><a href="/user/product/find/${currentPage-1}/${size}">上一页</a></li>
+                        <li><a href="/business/user/product/find/${currentPage-1}/${size}">上一页</a></li>
                     </#if>
 
                     <#list 1..conn as index>
                         <#if currentPage == index>
                             <li class="disabled"><a href="#">${index}</a></li>
                         <#else>
-                            <li><a href="/user/product/find/${index}/${size}">${index}</a></li>
+                            <li><a href="/business/business/user/product/find/${index}/${size}">${index}</a></li>
                         </#if>
                     </#list>
 
                     <#if currentPage gte conn>
                         <li class="disabled"><a href="#">下一页</a></li>
                     <#else>
-                        <li><a href="/user/product/find/${currentPage + 1}/${size}">下一页</a></li>
+                        <li><a href="/business/user/product/find/${currentPage + 1}/${size}">下一页</a></li>
                     </#if>
                     </ul>
                 </div>

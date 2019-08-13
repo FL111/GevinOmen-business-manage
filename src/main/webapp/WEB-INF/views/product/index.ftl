@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-md-12 column">
-                    <form role="form" method="post" action="/user/product/update" enctype="multipart/form-data">
+                    <form role="form" method="post" action="/business/user/product/update" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>名称</label>
                             <input name="name" type="text" class="form-control" value="${(productInfo.name)!''}"/>
@@ -47,7 +47,7 @@
                             <label>附图  当前图片：</label>
                             <#list imglist as img>
                                 <img src="/up111/${img}" style="width: 100px; height: 100px; display: inline-block" onclick="window.open(this.src)">
-                                <a href="/user/product/deletesub/${productInfo.id}/${img}">x</a>
+                                <a href="/business/user/product/deletesub/${productInfo.id}/${img}">x</a>
 
                             </#list>
                             <input id="input-id" type="file" name="picture1" value="重新上传" multiple>
