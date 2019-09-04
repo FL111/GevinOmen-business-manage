@@ -1,8 +1,12 @@
 package com.neuedu.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
+import com.neuedu.dbutils.ServerResponse;
 import com.neuedu.exception.MyException;
 import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.Product;
+import com.neuedu.pojoVO.ProductVO;
 
 import java.util.List;
 
@@ -32,7 +36,11 @@ public interface IProductService {
     public int updateStatus(Product product);
 
 
-    public PageModul findXXX(PageModul pageModul);
+    public List<Product> findXXX(PageModul pageModul);
 
     public int getCount();
+    public int getKeyCount(String keyword);
+
+    public List<Product> findProductByName(String name,int pageNum,int pageSize);
+    public ServerResponse findProductByIds(Integer id, Integer pageNum, Integer pageSize);
 }

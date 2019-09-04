@@ -1,9 +1,11 @@
 package com.neuedu.controller;
 
+import com.neuedu.dbutils.ServerResponse;
 import com.neuedu.pojo.Category;
 import com.neuedu.pojo.PageModul;
 import com.neuedu.pojo.Product;
 import com.neuedu.pojo.UserInfo;
+import com.neuedu.pojoVO.ProductVO;
 import com.neuedu.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,21 +37,18 @@ public class ProductController {
 
     @RequestMapping(value = "/find/{pageNum}/{pageSize}")
     public String find(@PathVariable("pageNum")int currentPage,
-                       @PathVariable("pageSize")int pageSize,
-                       HttpSession session){
-        PageModul pageModul=new PageModul();
-        pageModul.setPageSize(pageSize);
-        pageModul.setCurrentPage(currentPage);
-        pageModul=productService.findXXX(pageModul);
-        int counn=productService.getCount();
-        counn=counn/pageSize+1;
-        pageModul.setPageCount(counn);
-        List<Product> productList=pageModul.getPageList();
+                        @PathVariable("pageSize")int pageSize,
+        HttpSession session){
+            PageModul pageModul=new PageModul(currentPage,pageSize);
+            int counn=productService.getCount();
+            counn=counn/pageSize+1;
+        List<Product> productList=productService.findXXX(pageModul);
         for(Product product:productList){
             String subImg=product.getSubImages();
-            String[] sub=subImg.split(";");
-            product.setSubImages(sub[0]);
+            String[] sub=subImg.split(",");
+            product.setSubImages(sub[1]);
         }
+        session.setAttribute("url","/user/product/find");
         session.setAttribute("currentPage",currentPage);
         session.setAttribute("size",pageSize);
         session.setAttribute("conn",counn);
@@ -201,10 +201,24 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public  String delete(@PathVariable Integer id){
+    public  String delete(@PathVariable Integer id,HttpSession session){
         int count =productService.deleteProduct(id);
-        if (count>0){
-            return "redirect:/user/product/find/1/3";
+        String url = (String) session.getAttribute("url");
+        String[] text=url.split("/");
+        String resutlt= null;
+        int pageNum=(int) session.getAttribute("currentPage");
+        int pageSize=(int) session.getAttribute("size");
+        if (text.length==4){
+            resutlt="redirect:/user/product/find/"+pageNum+"/"+pageSize;
+            return resutlt;
+        }
+        if (text.length==5){
+            try {
+                resutlt="redirect:/user/product/search1/"+URLEncoder.encode(text[4],"utf-8")+"/"+pageNum+"/"+pageSize;
+                return resutlt;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
         return "commom/error";
     }
@@ -223,4 +237,52 @@ public class ProductController {
     }
 
 
+
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public String searchPage(){
+        return "product/search";
+    }
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public String searchPro(String keyword, HttpSession session, int pageNum, int pageSize){
+        List<Product> products=productService.findProductByName(keyword,pageNum,pageSize);
+        for(Product product:products){
+            String subImg=product.getSubImages();
+            String[] sub=subImg.split(",");
+            product.setSubImages(sub[1]);
+        }
+        int count=productService.getKeyCount(keyword);
+        count=count/pageSize+1;
+        session.setAttribute("url","/user/product/search1/"+keyword);
+        session.setAttribute("conn",count);
+        session.setAttribute("currentPage",pageNum);
+        session.setAttribute("productlist",products);
+        session.setAttribute("keyword",keyword);
+        return  "product/list";
+    }
+    @RequestMapping(value = "/search1/{keyword}/{pageNum}/{pageSize}")
+    public String searchPro1(@PathVariable("keyword") String keyword, HttpSession session,
+                             @PathVariable("pageNum") int pageNum,
+                             @PathVariable("pageSize") int pageSize){
+        List<Product> products=productService.findProductByName(keyword,pageNum,pageSize);
+        for(Product product:products){
+            String subImg=product.getSubImages();
+            String[] sub=subImg.split(",");
+            product.setSubImages(sub[1]);
+        }
+        int count=productService.getKeyCount(keyword);
+        count=count/pageSize+1;
+        session.setAttribute("url","/user/product/search1/"+keyword);
+        session.setAttribute("conn",count);
+        session.setAttribute("currentPage",pageNum);
+        session.setAttribute("productlist",products);
+        session.setAttribute("keyword",keyword);
+        return  "product/list";
+    }
+
+    @RequestMapping("/detail/{productId}")
+    public String detailProduct(@PathVariable("productId") int productId,HttpSession session){
+        Product product=productService.findProductById(productId);
+        session.setAttribute("product",product);
+        return "product/detail";
+    }
 }

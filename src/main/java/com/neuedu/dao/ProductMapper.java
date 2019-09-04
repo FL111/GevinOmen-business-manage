@@ -4,7 +4,6 @@ import com.neuedu.pojo.Product;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ProductMapper {
     /**
@@ -55,7 +54,19 @@ public interface ProductMapper {
 
     int updateStatus(Product record);
 
-    List<Product> selectAllByPage(@Param("pageNum") int pageNum, @Param("pageSize") int pageSize);
+    List<Product> selectAllByPage(@Param("orderBy") String orderBy,
+                                  @Param("pageNum") int pageNum,
+                                  @Param("pageSize") int pageSize);
 
     int getCount();
+    List<Product> selectAllByNew();
+    List<Product> selectAllByHot();
+    List<Product> selectAllByBanner();
+
+    List<Product> findProductByName(@Param("name") String name,
+                                    @Param("pageNum")int pageNum,
+                                    @Param("pageSize")int pageSize);
+
+
+    int getKeyCount(@Param("keyword") String keyword);
 }

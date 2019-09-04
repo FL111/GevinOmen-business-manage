@@ -1,11 +1,11 @@
 <html>
-<#include "../common/header.ftl">
+<#include "common/header.ftl">
 
 <body>
 <div id="wrapper" class="toggled">
 
     <#--边栏sidebar-->
-    <#include "../common/nav.ftl">
+    <#include "common/nav.ftl">
 
 
     <#--主要内容content-->
@@ -22,8 +22,8 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td>${orderDTO.orderId}</td>
-                            <td>${orderDTO.orderAmount}</td>
+                            <td>${orderDetail.orderNo}</td>
+                            <td>${orderDetail.payment}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -42,13 +42,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <#list orderDTO.orderDetailList as orderDetail>
+                        <#list orderDetail.orderItemVoList as itemDetail>
                         <tr>
-                            <td>${orderDetail.productId}</td>
-                            <td>${orderDetail.productName}</td>
-                            <td>${orderDetail.productPrice}</td>
-                            <td>${orderDetail.productQuantity}</td>
-                            <td>${orderDetail.productQuantity * orderDetail.productPrice}</td>
+                            <td>${itemDetail.productId}</td>
+                            <td>${itemDetail.productName}</td>
+                            <td>${itemDetail.currentUnitPrice}</td>
+                            <td>${itemDetail.quantity}</td>
+                            <td>${itemDetail.totalPrice}</td>
                         </tr>
                         </#list>
                         </tbody>
@@ -56,12 +56,12 @@
                 </div>
 
             <#--操作-->
-                <div class="col-md-12 column">
-                <#if orderDTO.getOrderStatusEnum().message == "新订单">
-                    <a href="/sell/seller/order/finish?orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-primary">完结订单</a>
-                    <a href="/sell/seller/order/cancel?orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-danger">取消订单</a>
-                </#if>
-                </div>
+                <#--<div class="col-md-12 column">-->
+                <#--<#if orderDTO.getOrderStatusEnum().message == "新订单">-->
+                    <#--<a href="/sell/seller/order/finish?orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-primary">完结订单</a>-->
+                    <#--<a href="/sell/seller/order/cancel?orderId=${orderDTO.orderId}" type="button" class="btn btn-default btn-danger">取消订单</a>-->
+                <#--</#if>-->
+                <#--</div>-->
             </div>
         </div>
     </div>

@@ -46,8 +46,8 @@ public class UserController {
             Cookie cookie1=new Cookie("password",loginUserInfo.getPassword());
             cookie.setMaxAge(7*24*60*60);
             cookie1.setMaxAge(7*24*60*60);
-            cookie.setPath("/user");
-            cookie1.setPath("/user");
+            cookie.setPath("/");
+            cookie1.setPath("/");
             response.addCookie(cookie);
             response.addCookie(cookie1);
             return "redirect:/user/category/find/1/3";
@@ -165,5 +165,8 @@ public class UserController {
         }
         return "login";
     }
+    public static <T extends Comparable<T>> int binary(T[] list,int target){
 
+        return -1;
+    }
 }

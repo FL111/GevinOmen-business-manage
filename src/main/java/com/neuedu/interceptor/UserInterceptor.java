@@ -28,7 +28,7 @@ public class UserInterceptor implements HandlerInterceptor{
                return true;
         }
         HttpSession session=request.getSession();
-        UserInfo userInfo=(UserInfo) session.getAttribute("user");
+        UserInfo userInfo=(UserInfo) session.getAttribute("userinfo");
         if (userInfo!=null){
             return true;
         }

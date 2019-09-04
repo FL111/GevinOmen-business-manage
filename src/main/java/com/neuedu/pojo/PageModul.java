@@ -10,6 +10,14 @@ public class PageModul<T> {
     private int pageCount;
     private int userCount;
 
+    public PageModul() {
+    }
+
+    public PageModul(int currentPage, int pageSize) {
+        this.currentPage = (currentPage-1)*pageSize;
+        this.pageSize = pageSize;
+    }
+
     private List<T> pageList;
     public int getCurrentPage() {
         return currentPage;
